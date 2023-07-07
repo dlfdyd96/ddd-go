@@ -6,6 +6,7 @@ import (
 )
 
 // Transaction is a payment between two parties
+// strong consist
 type Transaction struct {
 	// all values lowercase since they are immutable
 	amount    int

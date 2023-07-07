@@ -22,6 +22,7 @@ type MongoRepository struct {
 // mongoCustomer is an internal type that is used to store a CustomerAggregate
 // we make an internal struct for this to avoid coupling this mongo implementation to the customeraggregate.
 // Mongo uses bson so we add tags for that
+// this called persistent model.
 type mongoCustomer struct {
 	ID   uuid.UUID `bson:"id"`
 	Name string    `bson:"name"`
