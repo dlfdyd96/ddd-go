@@ -1,12 +1,17 @@
 package service
 
 import (
+	"context"
+	"github.com/dlfdyd96/ddd-go/internal/domain/customer/mongo"
+	"log"
+
+	"github.com/google/uuid"
+
 	"github.com/dlfdyd96/ddd-go/internal/aggregate"
 	"github.com/dlfdyd96/ddd-go/internal/domain/customer"
 	"github.com/dlfdyd96/ddd-go/internal/domain/customer/memory"
 	"github.com/dlfdyd96/ddd-go/internal/domain/product"
 	prodmemory "github.com/dlfdyd96/ddd-go/internal/domain/product/memory"
-	"github.com/google/uuid"
 )
 
 // OrderConfiguration is an alias for a function that will take in a pointer to an OrderService and modify it
@@ -50,6 +55,17 @@ func WithMemoryCustomerRepository() OrderConfiguration {
 	cr := memory.New()
 	return WithCustomerRepository(cr)
 }
+func WithMongoCustomerRepository(connectionString string) OrderConfiguration {
+	return func(os *OrderService) error {
+		// Create the mongo repo, if we needed parameters, such as connection strings they could be inputted here
+		cr, err := mongo.New(context.Background(), connectionString)
+		if err != nil {
+			return err
+		}
+		os.customers = cr
+		return nil
+	}
+}
 
 // WithMemoryProductRepository adds a in memory product repo and adds all input products
 func WithMemoryProductRepository(products []aggregate.Product) OrderConfiguration {
@@ -70,14 +86,28 @@ func WithMemoryProductRepository(products []aggregate.Product) OrderConfiguratio
 }
 
 // CreateOrder will chaintogether all repositories to create a order for a customer
-func (o *OrderService) CreateOrder(customerID uuid.UUID, productIDs []uuid.UUID) error {
+// will return the collected price of all Products
+func (o *OrderService) CreateOrder(customerID uuid.UUID, productIDs []uuid.UUID) (float64, error) {
 	// Get the customer
 	c, err := o.customers.Get(customerID)
 	if err != nil {
-		return err
+		return 0, err
 	}
 
 	// Get each Product, Ouchie, We need a ProductRepository
+	var products []aggregate.Product
+	var price float64
+	for _, id := range productIDs {
+		p, err := o.products.GetByID(id)
+		if err != nil {
+			return 0, err
+		}
+		products = append(products, p)
+		price += p.GetPrice()
+	}
 
-	return nil
+	// All Products exists in store, now we can create the order
+	log.Printf("Customer: %s has ordered %d products", c.GetID(), len(products))
+
+	return price, nil
 }
