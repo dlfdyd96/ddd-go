@@ -1,8 +1,11 @@
 package service
 
 import (
+	"github.com/dlfdyd96/ddd-go/internal/aggregate"
 	"github.com/dlfdyd96/ddd-go/internal/domain/customer"
 	"github.com/dlfdyd96/ddd-go/internal/domain/customer/memory"
+	"github.com/dlfdyd96/ddd-go/internal/domain/product"
+	prodmemory "github.com/dlfdyd96/ddd-go/internal/domain/product/memory"
 	"github.com/google/uuid"
 )
 
@@ -12,6 +15,7 @@ type OrderConfiguration func(os *OrderService) error
 // OrderService is a implementation of the OrderService
 type OrderService struct {
 	customers customer.CustomerRepository
+	products  product.ProductRepository
 }
 
 // NewOrderService takes a variable amount of OrderConfiguration functions and returns a new OrderService
@@ -45,6 +49,24 @@ func WithMemoryCustomerRepository() OrderConfiguration {
 	// Create the memory repo, if we needed parameters, such as connection strings they could be inputted here
 	cr := memory.New()
 	return WithCustomerRepository(cr)
+}
+
+// WithMemoryProductRepository adds a in memory product repo and adds all input products
+func WithMemoryProductRepository(products []aggregate.Product) OrderConfiguration {
+	return func(os *OrderService) error {
+		// Create the memory repo, if we needed parameters, such as connection strings they could be inputted here
+		pr := prodmemory.New()
+
+		// Add Items to repo
+		for _, p := range products {
+			err := pr.Add(p)
+			if err != nil {
+				return err
+			}
+		}
+		os.products = pr
+		return nil
+	}
 }
 
 // CreateOrder will chaintogether all repositories to create a order for a customer
