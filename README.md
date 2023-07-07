@@ -11,57 +11,41 @@ References) [How To Implement Domain-Driven Design (DDD) in Golang](https://prog
 
 ## DDD?
 
-<aside class="notice">
-
-📌 Domain-Driven Design은 소프트웨어가 속한 도메인을 따라 소프트웨어를 구조화하고 모델링하는 방법입니다
+> **Note**
+> 📌 Domain-Driven Design은 소프트웨어가 속한 도메인을 따라 소프트웨어를 구조화하고 모델링하는 방법입니다
 
 </aside>
 
 ## Domain / Model / Ubiquitous Language / Sub-Domains
 
+> **Note**
+> 📌 Model은 Domain을 처리하는 데 필요한 구성 요소의 추상화입니다.
 
-<aside class="notice">
 
-📌 Model은 Domain을 처리하는 데 필요한 구성 요소의 추상화입니다.
+> **Note**
+> 📌 Domain은 소프트웨어가 작동할 영역입니다.
 
-</aside>
 
-<aside class="notice">
+> **Note**
+> 📌 모든 작업 참여자들(디자이너, 개발자 등등)이 사용할 공통된 언어가 Ubiquitous Language입니다.
 
-📌 Domain은 소프트웨어가 작동할 영역입니다.
 
-</aside>
+> **Note**
+> 📌 Sub-Domain은 루트 도메인 내부의 영역을 해결하는 데 사용되는 별도의 도메인입니다.
 
-<aside class="notice">
-
-📌 모든 작업 참여자들(디자이너, 개발자 등등)이 사용할 공통된 언어가 Ubiquitous Language입니다.
-
-</aside>
-
-<aside class="notice">
-
-📌 Sub-Domain은 루트 도메인 내부의 영역을 해결하는 데 사용되는 별도의 도메인입니다.
-
-</aside>
 
 ## Entities & Value Objects
 
-<aside class="notice">
+> **Note**
+> 📌 Entity는 변경할 수 있는 상태가 있는 고유 식별자를 참조하는 구조체입니다.
 
-📌 Entity는 변경할 수 있는 상태가 있는 고유 식별자를 참조하는 구조체입니다.
-
-</aside>
 
 - Entity
     - unique identifier (id)
     - Mutable (수정)
 
-<aside class="notice">
-
-
-📌 VO는 종종 도메인 내부에서 발견되며 해당 도메인의 특정 측면을 설명하는 데 사용됩니다.
-
-</aside>
+> **Note**
+> 📌 VO는 종종 도메인 내부에서 발견되며 해당 도메인의 특정 측면을 설명하는 데 사용됩니다.
 
 - Value Object (VO)
     - No Identifier (값 그 자체, 거래 같은 것.)
@@ -69,11 +53,8 @@ References) [How To Implement Domain-Driven Design (DDD) in Golang](https://prog
 
 ## Aggregate - 결합된 Entity & VO
 
-<aside class="notice">
-
-📌 Aggregate는 엔터티와 값 개체가 결합된 집합입니다.
-
-</aside>
+> **Note**
+> 📌 Aggregate는 엔터티와 값 개체가 결합된 집합입니다.
 
 > ***DDD Aggregate는 도메인 개념(주문, 진료소 방문, 재생 목록) — [Martin Fowler](https://martinfowler.com/bliki/DDD_Aggregate.html)***
 >
@@ -187,11 +168,9 @@ bussiness logic을 구현할 차례.
 </details>
 
 
-<aside class="notice">
+> **Note**
+> 📌 DDD는 복잡한 집계, 리포지토리 및 서비스를 만들기 위해 `FACTORY`를 사용할 것을 제안
 
-📌 DDD는 복잡한 집계, 리포지토리 및 서비스를 만들기 위해 `FACTORY`를 사용할 것을 제안
-
-</aside>
 
 - 팩토리
     - 유효성 검사
@@ -200,11 +179,8 @@ bussiness logic을 구현할 차례.
 
 ## Repository - 레포지터리 패턴
 
-<aside class="notice">
-
-📌 DDD는 Aggregate를 저장하고 관리하는 데 `REPOSITORY`를 사용해야 합니다.
-
-</aside>
+> **Note**
+> 📌 DDD는 Aggregate를 저장하고 관리하는 데 `REPOSITORY`를 사용해야 합니다.
 
 - Interface 뒤에 스토리지/데이터베이스 솔루션의 구현을 숨기는데 의존하는 패턴
 - 장점
@@ -216,11 +192,9 @@ bussiness logic을 구현할 차례.
 
 ## Service - 비즈니스 로직 연결
 
-<aside class="notice">
+> **Note**
+> 📌 `SERVICE`는 느슨하게 연결된 모든 repository를 특정 Domain의 요구 사항을 충족하는 비즈니스 논리에 연결합니다.
 
-📌 `SERVICE`는 느슨하게 연결된 모든 repository를 특정 Domain의 요구 사항을 충족하는 비즈니스 논리에 연결합니다.
-
-</aside>
 
 - 특정 비즈니스 논리 흐름을 수행하는 데 필요한 모든 repository를 한 서비스에서 보유함.
 - 서비스 내부에 서비스가 있을 수 도 있음.
