@@ -1,11 +1,12 @@
-package service
+package order
 
 import (
-	"github.com/dlfdyd96/ddd-go/internal/domain/customer"
-	"github.com/dlfdyd96/ddd-go/internal/domain/product"
 	"testing"
 
 	"github.com/google/uuid"
+
+	"github.com/dlfdyd96/ddd-go/internal/domain/customer"
+	"github.com/dlfdyd96/ddd-go/internal/domain/product"
 )
 
 func init_products(t *testing.T) []product.Product {

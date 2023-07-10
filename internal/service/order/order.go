@@ -1,14 +1,14 @@
-package service
+package order
 
 import (
 	"context"
-	"github.com/dlfdyd96/ddd-go/internal/domain/customer/mongo"
 	"log"
 
 	"github.com/google/uuid"
 
 	"github.com/dlfdyd96/ddd-go/internal/domain/customer"
 	"github.com/dlfdyd96/ddd-go/internal/domain/customer/memory"
+	"github.com/dlfdyd96/ddd-go/internal/domain/customer/mongo"
 	"github.com/dlfdyd96/ddd-go/internal/domain/product"
 	prodmemory "github.com/dlfdyd96/ddd-go/internal/domain/product/memory"
 )
@@ -109,4 +109,19 @@ func (o *OrderService) CreateOrder(customerID uuid.UUID, productIDs []uuid.UUID)
 	log.Printf("Customer: %s has ordered %d products", c.GetID(), len(products))
 
 	return price, nil
+}
+
+// AddCustomer will add a new customer and return the customerID
+func (o *OrderService) AddCustomer(name string) (uuid.UUID, error) {
+	c, err := customer.NewCustomer(name)
+	if err != nil {
+		return uuid.Nil, err
+	}
+	// Add to Repo
+	err = o.customers.Add(c)
+	if err != nil {
+		return uuid.Nil, err
+	}
+
+	return c.GetID(), nil
 }
