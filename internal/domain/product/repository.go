@@ -2,7 +2,6 @@ package product
 
 import (
 	"errors"
-	"github.com/dlfdyd96/ddd-go/internal/aggregate"
 	"github.com/google/uuid"
 )
 
@@ -15,9 +14,9 @@ var (
 
 // ProductRepository is the repository interface to fulfill to use the product aggregate
 type ProductRepository interface {
-	GetAll() ([]aggregate.Product, error)
-	GetByID(uuid.UUID) (aggregate.Product, error)
-	Add(aggregate.Product) error
-	Update(aggregate.Product) error
+	GetAll() ([]Product, error)
+	GetByID(uuid.UUID) (Product, error)
+	Add(Product) error
+	Update(Product) error
 	Delete(uuid.UUID) error
 }

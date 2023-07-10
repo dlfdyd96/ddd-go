@@ -1,11 +1,10 @@
 package service
 
 import (
+	"github.com/dlfdyd96/ddd-go/internal/domain/customer"
 	"testing"
 
 	"github.com/google/uuid"
-
-	"github.com/dlfdyd96/ddd-go/internal/aggregate"
 )
 
 func Test_Tavern(t *testing.T) {
@@ -25,7 +24,7 @@ func Test_Tavern(t *testing.T) {
 		t.Error(err)
 	}
 
-	cust, err := aggregate.NewCustomer("Percy")
+	cust, err := customer.NewCustomer("Percy")
 	if err != nil {
 		t.Error(err)
 	}
@@ -62,7 +61,7 @@ func Test_MongoTavern(t *testing.T) {
 		t.Error(err)
 	}
 
-	cust, err := aggregate.NewCustomer("Percy")
+	cust, err := customer.NewCustomer("Percy")
 	if err != nil {
 		t.Error(err)
 	}

@@ -5,13 +5,12 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/dlfdyd96/ddd-go/internal/aggregate"
 	"github.com/dlfdyd96/ddd-go/internal/domain/product"
 )
 
 func TestMemoryProductRepository_Add(t *testing.T) {
 	repo := New()
-	product, err := aggregate.NewProduct("Beer", "Good for you're health", 1.99)
+	product, err := product.NewProduct("Beer", "Good for you're health", 1.99)
 	if err != nil {
 		t.Error(err)
 	}
@@ -23,7 +22,7 @@ func TestMemoryProductRepository_Add(t *testing.T) {
 }
 func TestMemoryProductRepository_Get(t *testing.T) {
 	repo := New()
-	existingProd, err := aggregate.NewProduct("Beer", "Good for you're health", 1.99)
+	existingProd, err := product.NewProduct("Beer", "Good for you're health", 1.99)
 	if err != nil {
 		t.Error(err)
 	}
@@ -64,7 +63,7 @@ func TestMemoryProductRepository_Get(t *testing.T) {
 }
 func TestMemoryProductRepository_Delete(t *testing.T) {
 	repo := New()
-	existingProd, err := aggregate.NewProduct("Beer", "Good for you're health", 1.99)
+	existingProd, err := product.NewProduct("Beer", "Good for you're health", 1.99)
 	if err != nil {
 		t.Error(err)
 	}
